@@ -17,6 +17,7 @@ class PaypalTagLib {
 		def discountAmount = attrs.discountAmount
 		def tax = attrs.tax ?: "0.0"
 		def buyerId = attrs.buyerId
+        def absolute = (attrs.absolute && attrs.absolute == "true")
 		def buttonSrc = attrs.buttonSrc ?: "https://www.paypal.com/en_US/i/btn/btn_buynow_LG.gif"
 		def buttonAlt = attrs.buttonAlt ?: "PayPal - The safer, easier way to pay online!"
 		def currency = attrs.currency ?: Currency.getInstance("USD")
@@ -38,7 +39,7 @@ class PaypalTagLib {
 		else {
 			def formParams = [:]
 			if(attrs.transactionId) formParams.transactionId = attrs.transactionId
-			out << g.form(controller:"paypal",action:"buy", params:formParams) {
+			out << g.form(controller:"paypal",action:"buy", absolute: absolute, params:formParams) {
 				""" ${returnAction}
 				    ${returnController}
 				    ${cancelAction}
